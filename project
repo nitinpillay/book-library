@@ -1,0 +1,85 @@
+class Library():
+    def __init__(self, booklist):
+        self.booklendata = []
+        self.bookname = booklist
+
+    def display(self):
+        for index, books in enumerate(self.bookname):
+            print(f"{index+1} -> {books}")
+
+    def booklend(self, Lender, BookName, BookIndex):
+        LenderDetails = f'Name: {Lender}, BookName: {BookName}'
+        self.booklendata.append(LenderDetails)
+        del self.bookname[BookIndex-1]
+
+    def bookreturn(self, Lender, Name):
+        MatchData = f'Name: {Lender}, BookName: {Name}'
+        if MatchData == self.booklendata[0] or MatchData == self.booklendata[1]:
+            self.bookname.append(Name)
+            if MatchData == self.booklendata[0]:
+                del self.booklendata[0]
+            elif MatchData == self.booklendata[1]:
+                del self.booklendata[1]
+            return "Book Returned Successfully"
+        else:
+            return "Failed to Return..."
+
+    def BooksLent(self):
+        for index, LenderDetails in enumerate(self.booklendata):
+            print(f"{index+1} -> {LenderDetails}")
+
+    def addbook(self, NewBook):
+        self.bookname.append(NewBook)
+
+    def deletebook(self, BookIndex):
+        del self.bookname[BookIndex-1]
+
+Nitin = Library(["Fire in Earth","Red Sight of Moon","Soul of the Music", "Planet Chaos"])
+def main():
+        print("Welcome to Library, We Have These Books currently...")
+        Nitin.display()
+        print("\nAutorized persons can check 'lentdata' and 'delete' books")
+        print("Citizens Enter 'lend' to Lend 'donate' to donate or 'return' to return a book ('exit' to Return) ")
+        Exit = False
+        while Exit is not True:
+            MainInput = input("\nProvide Input: ")
+
+            if MainInput == "lend":
+                LenderName = input("Enter Your Name: ")
+                BookIndex = int(input("Enter Book Number 'Int' written besides the Name of Book: "))
+                BookName = Nitin.bookname[BookIndex-1]
+                Nitin.booklend(LenderName,BookName, BookIndex)
+                Nitin.display()
+
+            if MainInput == "return":
+                Lender = input("Enter Your Name: ")
+                LentReturn = input("Enter Book Name: ")
+                print(Nitin.bookreturn(Lender,LentReturn))
+                Nitin.display()
+
+            if MainInput == "lentdata":
+                if input("Enter Secret Password : ")== "chalnikal":
+                    print("Authorization Granted!!")
+                else:
+                    print("Spammers are Not Allowed to Enter...")
+                    exit(0)
+                Nitin.BooksLent()
+
+            if MainInput == "donate":
+                Nitin.addbook(NewBook)
+                Nitin.display()
+
+            if MainInput == "delete":
+                if input("Enter Secret Password : ")== "chalnikal":
+                    print("Authorization Granted!!")
+                else:
+                    print("Spammers are Not Allowed to Enter...")
+                    exit(0)
+                BookIndex = int(input("Enter Book Index: "))
+                Nitin.deletebook(BookIndex)
+                Nitin.display()
+
+            if  MainInput == "exit":
+                Exit = True
+
+main()
